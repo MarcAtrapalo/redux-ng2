@@ -15,6 +15,10 @@ import { Hero } from './hero';
         (click)="onSelect(hero)">
         <span class="badge">{{hero.id}}</span> {{hero.name}}
       </li>
+      <li class="add"
+        (click)="onAdd()">
+        Add Hero
+      </li>
     </ul>
   `,
     styles:[`
@@ -64,6 +68,10 @@ import { Hero } from './hero';
       margin-right: .8em;
       border-radius: 4px 0px 0px 4px;
     }
+    .heroes .add {
+        text-align: center;
+        line-height: 25px;
+    }
   `],
     directives: [HeroDetailComponent]
 })
@@ -71,7 +79,26 @@ export class AppComponent {
     public title = 'Tour of Heroes';
     public heroes = HEROES;
     public selectedHero: Hero;
-    onSelect(hero: Hero) { this.selectedHero = hero; }
+
+    onSelect(hero: Hero) {
+        this.selectedHero = hero;
+    }
+
+    onAdd() {
+        var newHero = {id: this.newId(), name: ''};
+        this.heroes.push(newHero);
+        this.selectedHero = newHero;
+    }
+
+    newId() {
+        var id = 0;
+        for (var i = 0; i < this.heroes.length; i++) {
+            if (this.heroes[i].id > id) {
+                id = this.heroes[i].id;
+            }
+        }
+        return id+1;
+    }
 }
 var HEROES: Hero[] = [
     { "id": 11, "name": "Mr. Nice" },
